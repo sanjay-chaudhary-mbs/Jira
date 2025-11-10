@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MiniJira.API.Data;
+using MiniJira.API.Repositories;
+using MiniJira.API.Repositories.Interface;
+using MiniJira.API.Services;
+using MiniJira.API.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +16,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(opts =>
     opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IIssueRepository, IssueRepository>();
+builder.Services.AddScoped<IIssueService, IssueService>();
 
 var app = builder.Build();
 
