@@ -1,7 +1,32 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\DotNetDeveloper\\MiniJira.API\\",
-  "Documents": [],
+  "WorkspaceRootPath": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|e:\\dotnetdeveloper\\jira\\minijira.api\\minijira.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|solutionrelative:minijira.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|e:\\dotnetdeveloper\\jira\\minijira.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|e:\\dotnetdeveloper\\jira\\minijira.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|e:\\dotnetdeveloper\\jira\\minijira.api\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|e:\\dotnetdeveloper\\jira\\minijira.api\\models\\project.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|solutionrelative:models\\project.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|e:\\dotnetdeveloper\\jira\\minijira.api\\models\\issue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4033C94-0894-4412-9EE6-99A58F34F82F}|MiniJira.API.csproj|solutionrelative:models\\issue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +34,85 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T11:39:51.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-10T11:39:20.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T11:37:16.558Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Project.cs",
+              "DocumentMoniker": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Models\\Project.cs",
+              "RelativeDocumentMoniker": "Models\\Project.cs",
+              "ToolTip": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Models\\Project.cs",
+              "RelativeToolTip": "Models\\Project.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T11:35:49.972Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Issue.cs",
+              "DocumentMoniker": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Models\\Issue.cs",
+              "RelativeDocumentMoniker": "Models\\Issue.cs",
+              "ToolTip": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\Models\\Issue.cs",
+              "RelativeToolTip": "Models\\Issue.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T11:33:37.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MiniJira.API",
+              "DocumentMoniker": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\MiniJira.API.csproj",
+              "RelativeDocumentMoniker": "MiniJira.API.csproj",
+              "ToolTip": "E:\\DotNetDeveloper\\Jira\\MiniJira.API\\MiniJira.API.csproj*",
+              "RelativeToolTip": "MiniJira.API.csproj*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-10T11:28:57.961Z",
+              "EditorCaption": ""
             }
           ]
         }

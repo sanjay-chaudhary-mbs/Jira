@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\DotNetDeveloper\\MiniJira.MVC\\MiniJira.MVC.csproj": {}
+    "E:\\DotNetDeveloper\\Jira\\MiniJira.MVC\\MiniJira.MVC.csproj": {}
   },
   "projects": {
-    "E:\\DotNetDeveloper\\MiniJira.MVC\\MiniJira.MVC.csproj": {
+    "E:\\DotNetDeveloper\\Jira\\MiniJira.MVC\\MiniJira.MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DotNetDeveloper\\MiniJira.MVC\\MiniJira.MVC.csproj",
+        "projectUniqueName": "E:\\DotNetDeveloper\\Jira\\MiniJira.MVC\\MiniJira.MVC.csproj",
         "projectName": "MiniJira.MVC",
-        "projectPath": "E:\\DotNetDeveloper\\MiniJira.MVC\\MiniJira.MVC.csproj",
+        "projectPath": "E:\\DotNetDeveloper\\Jira\\MiniJira.MVC\\MiniJira.MVC.csproj",
         "packagesPath": "C:\\Users\\Sanjay\\.nuget\\packages\\",
-        "outputPath": "E:\\DotNetDeveloper\\MiniJira.MVC\\obj\\",
+        "outputPath": "E:\\DotNetDeveloper\\Jira\\MiniJira.MVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -49,6 +49,18 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

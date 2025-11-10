@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniJira.MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+608ee88dd65095008b3c97072c0c26e9ba6ddad6")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniJira.MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniJira.MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

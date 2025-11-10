@@ -1,0 +1,32 @@
+# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Visual Studio cache
+.vs/
+
+# Backup and cache files
+*.cache
+*.pdb
+*.db
+*.v2
+
+# Auto-generated build configs
+project.assets.json
+project.nuget.cache
+*.FileListAbsolute.txt
+
+# Editor settings
+*.backup.json
+*.DocumentLayout.json
+
+# Build logs
+*.log
+
+# Output executables and DLLs
+*.exe
+*.dll
