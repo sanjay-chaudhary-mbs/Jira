@@ -1,0 +1,35 @@
+﻿@model MiniJira.MVC.Models.ProjectViewModel
+
+<h2>Project: @Model.Name</h2>
+<p><strong>Description:</strong> @Model.Description</p>
+
+<h4>Issues</h4>
+
+@if (Model.Issues != null && Model.Issues.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Issue ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var issue in Model.Issues)
+            {
+                <tr>
+                    <td>@issue.Id</td>
+                    <td>@issue.Title</td>
+                    <td>@issue.Description</td>
+                    <td>@issue.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No issues found for this project.</p>
+}

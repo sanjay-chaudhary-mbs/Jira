@@ -1,0 +1,36 @@
+﻿@model List<MiniJira.MVC.Models.ProjectViewModel>
+
+<h2 class="mb-3">Projects</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Project Name</th>
+                <th>Description</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td>@p.Name</td>
+                    <td>@p.Description</td>
+                    <td>
+                        <a href="@Url.Action("Details", "Projects", new { id = p.Id })" class="btn btn-primary btn-sm">
+                            View Issues
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
