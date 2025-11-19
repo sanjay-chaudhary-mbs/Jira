@@ -19,5 +19,4 @@
     <Folder Include="Mappers\" />
     <Folder Include="DTOs\" />
   </ItemGroup>
-
 </Project>

@@ -5,7 +5,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient("MiniJiraAPI", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7001/"); 
+    client.BaseAddress = new Uri("https://localhost:44311/"); 
 });
 
 var app = builder.Build();
