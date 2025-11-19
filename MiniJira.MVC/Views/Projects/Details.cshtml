@@ -3,6 +3,14 @@
 <h2>Project: @Model.Name</h2>
 <p><strong>Description:</strong> @Model.Description</p>
 
+
+<a class="btn btn-success mb-3"
+   asp-controller="Issues"
+   asp-action="Create"
+   asp-route-projectId="@Model.Id">
+    + Create Issue
+</a>
+
 <h4>Issues</h4>
 
 @if (Model.Issues != null && Model.Issues.Any())
