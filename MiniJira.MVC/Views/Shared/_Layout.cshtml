@@ -43,7 +43,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark @isActive("Home", "Index")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark @isActive("Home", "Index")" asp-area="" asp-controller="Dashboard" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark @isActive("Home", "Privacy")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -51,9 +51,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark @isActive("Projects", "Index" )" asp-controller="Projects" asp-action="Index">Projects</a>
                         </li>
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark @isActive("Dashboard", "Index")" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li>
+                        </li> *@
 
 
                     </ul>
