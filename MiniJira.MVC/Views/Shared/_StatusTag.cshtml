@@ -1,0 +1,19 @@
+﻿@model string   @* Status text: "Open", "In Progress", etc *@
+
+@functions {
+    string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Open" => "status-open",
+            "In Progress" => "status-inprogress",
+            "Resolved" => "status-resolved",
+            "Closed" => "status-closed",
+            _ => "status-default"
+        };
+    }
+}
+
+<span class="status-tag @GetStatusClass(Model)">
+    @Model
+</span>

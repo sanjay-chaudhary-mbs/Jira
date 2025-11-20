@@ -19,7 +19,20 @@
             background-color: #e9ecef;
             font-weight: bold;
         }
+
+        .stat-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
     </style>
+
 </head>
 <body>
     @{
@@ -33,44 +46,42 @@
         };
     }
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background: #4C6EF5;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MiniJira.MVC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand d-flex align-items-center" asp-controller="Dashboard" asp-action="Index">
+                    <img src="/mnt/data/31e81f73-b963-495d-b417-8063ff6300d2.png" alt="Logo" style="height:40px; margin-right:10px;" />
+                    <span class="fw-bold">MiniJira</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @isActive("Home", "Index")" asp-area="" asp-controller="Dashboard" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @isActive("Home", "Privacy")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @isActive("Projects", "Index" )" asp-controller="Projects" asp-action="Index">Projects</a>
-                        </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark @isActive("Dashboard", "Index")" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li> *@
 
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                               asp-controller="Dashboard" asp-action="Index">
+                                Home
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Projects" ? "active" : "")"
+                               asp-controller="Projects" asp-action="Index">
+                                Projects
+                            </a>
+                        </li>
                     </ul>
-                    <script>
-                        var navLinks = document.querySelectorAll('.nav-link');
-                        navLinks.forEach(function(link) {
-                            link.addEventListener('click', function() {
-                                navLinks.forEach(function(l) {
-                                    l.classList.remove('active');
-                                });
-                                this.classList.add('active');
-                            });
-                        });
-                    </script>
+
+                    <span class="navbar-text text-white me-3">
+                        Welcome 👋
+                    </span>
                 </div>
             </div>
         </nav>
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">

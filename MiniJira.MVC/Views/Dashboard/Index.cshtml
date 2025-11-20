@@ -2,117 +2,145 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+@functions {
+    string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Open" => "status-open",
+            "In Progress" => "status-inprogress",
+            "Resolved" => "status-resolved",
+            "Closed" => "status-closed",
+            _ => "status-default"
+        };
+    }
+}
+
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
 
 <div class="container-fluid mt-4">
+    <!-- Header -->
     <div class="d-flex align-items-center mb-4">
-        <!-- logo using your uploaded file path (the system will transform path to URL) -->
-        <img src="C:\Users\Sanjay\Downloads.PB.png" alt="MiniJira" style="height:48px;margin-right:12px;" />
+        <img src="~/images/logo.png" alt="MiniJira" style="height:48px;margin-right:12px;" />
         <h2 class="m-0">PB - Dashboard</h2>
+
         <div class="ms-auto">
             <a class="btn btn-outline-primary me-2" asp-controller="Projects" asp-action="Index">Projects</a>
-            <a class="btn btn-success" asp-controller="Projects" asp-action="Index">Create Project</a>
+            <a class="btn btn-success" asp-controller="Projects" asp-action="Create">Create Project</a>
         </div>
     </div>
 
-    <div class="row mb-3">
+    <!-- Stats Row -->
+    <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card text-bg-light mb-2">
-                <div class="card-body">
-                    <h6>Total Projects</h6>
-                    <h3>@Model.Projects.Count()</h3>
-                </div>
+            <div class="stat-card">
+                <h6>Total Projects</h6>
+                <h2>@Model.Projects.Count()</h2>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card text-bg-light mb-2">
-                <div class="card-body">
-                    <h6>Total Issues</h6>
-                    <h3>@(Model.ToDo.Count + Model.InProgress.Count + Model.Done.Count)</h3>
-                </div>
+            <div class="stat-card">
+                <h6>Total Issues</h6>
+                <h2>@(Model.ToDo.Count + Model.InProgress.Count + Model.Done.Count)</h2>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card text-bg-light mb-2">
-                <div class="card-body">
-                    <h6>Open</h6>
-                    <h3>@Model.ToDo.Count()</h3>
-                </div>
+            <div class="stat-card">
+                <h6>Open Issues</h6>
+                <h2>@Model.ToDo.Count()</h2>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card text-bg-light mb-2">
-                <div class="card-body">
-                    <h6>In Progress</h6>
-                    <h3>@Model.InProgress.Count()</h3>
-                </div>
+            <div class="stat-card">
+                <h6>In Progress</h6>
+                <h2>@Model.InProgress.Count()</h2>
             </div>
         </div>
     </div>
 
+    <!-- Kanban + Recent Activity -->
     <div class="row">
-        <!-- Kanban Columns -->
+        <!-- Kanban Board -->
         <div class="col-md-8">
             <div class="row">
+
+                <!-- To Do -->
                 <div class="col-md-4">
                     <h5>To Do</h5>
-                    <div id="todo" class="kanban-column p-2 bg-light" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div id="todo" class="kanban-column" ondrop="drop(event)" ondragover="allowDrop(event)">
                         @foreach (var issue in Model.ToDo)
                         {
-                            <div class="card mb-2 kanban-card" draggable="true" ondragstart="drag(event)" data-id="@issue.Id" data-status="@issue.Status">
-                                <div class="card-body p-2">
-                                    <strong>@issue.Title</strong>
-                                    <div class="small text-muted">#@issue.Id</div>
-                                    <div class="mt-1">@issue.Description</div>
-                                </div>
+                            <div class="kanban-card" draggable="true" ondragstart="drag(event)"
+                                 data-id="@issue.Id" data-status="@await Html.PartialAsync("_StatusTag", issue.Status)
+    ">
+                                <strong>@issue.Title</strong>
+                                <div class="small text-muted mb-1">#@issue.Id</div>
+
+                                <span class="status-tag @GetStatusClass(issue.Status)">
+                                    @await Html.PartialAsync("_StatusTag", issue.Status)
+
+                                </span>
+
+                                <div class="mt-1">@issue.Description</div>
                             </div>
                         }
                     </div>
                 </div>
 
+                <!-- In Progress -->
                 <div class="col-md-4">
                     <h5>In Progress</h5>
-                    <div id="inprogress" class="kanban-column p-2 bg-light" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div id="inprogress" class="kanban-column" ondrop="drop(event)" ondragover="allowDrop(event)">
                         @foreach (var issue in Model.InProgress)
                         {
-                            <div class="card mb-2 kanban-card" draggable="true" ondragstart="drag(event)" data-id="@issue.Id" data-status="@issue.Status">
-                                <div class="card-body p-2">
-                                    <strong>@issue.Title</strong>
-                                    <div class="small text-muted">#@issue.Id</div>
-                                    <div class="mt-1">@issue.Description</div>
-                                </div>
+                            <div class="kanban-card" draggable="true" ondragstart="drag(event)"
+                                 data-id="@issue.Id" data-status="@await Html.PartialAsync("_StatusTag", issue.Status)
+    ">
+                                <strong>@issue.Title</strong>
+                                <div class="small text-muted">#@issue.Id</div>
+                                <div class="mt-1">@issue.Description</div>
                             </div>
                         }
                     </div>
                 </div>
 
+                <!-- Done -->
                 <div class="col-md-4">
                     <h5>Done</h5>
-                    <div id="done" class="kanban-column p-2 bg-light" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div id="done" class="kanban-column" ondrop="drop(event)" ondragover="allowDrop(event)">
                         @foreach (var issue in Model.Done)
                         {
-                            <div class="card mb-2 kanban-card" draggable="true" ondragstart="drag(event)" data-id="@issue.Id" data-status="@issue.Status">
-                                <div class="card-body p-2">
-                                    <strong>@issue.Title</strong>
-                                    <div class="small text-muted">#@issue.Id</div>
-                                    <div class="mt-1">@issue.Description</div>
-                                </div>
+                            <div class="kanban-card" draggable="true" ondragstart="drag(event)"
+                                 data-id="@issue.Id" data-status="@await Html.PartialAsync("_StatusTag", issue.Status)">
+                                <strong>@issue.Title</strong>
+                                <div class="small text-muted">#@issue.Id</div>
+                                <div class="mt-1">@issue.Description</div>
                             </div>
                         }
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <!-- Right sidebar: recent activity -->
+        <!-- Recent Activity -->
         <div class="col-md-4">
             <h5>Recent Activity</h5>
             <ul class="list-group">
                 @foreach (var a in Model.RecentActivity)
                 {
-                    <li class="list-group-item">
+                    <li class="list-group-item shadow-sm mb-2">
                         <strong>@a.Title</strong>
-                        <div class="small text-muted">Issue #@a.Id — @a.Status</div>
+                        <div class="small text-muted">Issue #@a.Id</div>
+
+                        <span class="status-tag @GetStatusClass(a.Status)">
+                            @a.Status
+                        </span>
+
                         <div class="mt-1">@a.Description</div>
                     </li>
                 }
@@ -121,14 +149,80 @@
     </div>
 </div>
 
-<!-- small inline CSS -->
+<!-- Styling -->
 <style>
-    .kanban-column { min-height: 300px; border-radius: 6px; }
-    .kanban-card { cursor: grab; }
-    .kanban-column.dragover { outline: 2px dashed #0d6efd; }
+    .stat-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        transition: 0.2s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+    .kanban-column {
+        min-height: 350px;
+        background: #F8F9FA;
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #e2e2e2;
+        transition: box-shadow 0.2s ease;
+    }
+
+        .kanban-column.dragover {
+            box-shadow: inset 0 0 0 3px #4C6EF5;
+        }
+
+    .kanban-card {
+        background: white;
+        padding: 14px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        cursor: grab;
+        transition: transform .2s ease;
+    }
+
+        .kanban-card:hover {
+            transform: translateY(-4px);
+        }
+    /* Status Tags */
+    .status-tag {
+        display: inline-block;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 20px;
+        color: white;
+    }
+
+    .status-open {
+        background-color: #0d6efd; /* Blue */
+    }
+
+    .status-inprogress {
+        background-color: #f1c40f; /* Yellow */
+        color: #000;
+    }
+
+    .status-resolved {
+        background-color: #2ecc71; /* Green */
+    }
+
+    .status-closed {
+        background-color: #6c757d; /* Gray */
+    }
+
+    .status-default {
+        background-color: #999;
+    }
+
 </style>
 
-<!-- small vanilla JS for drag/drop + optimistic update -->
+<!-- Drag & Drop Logic -->
 <script>
     function allowDrop(ev) {
         ev.preventDefault();
@@ -136,50 +230,33 @@
     }
 
     function drag(ev) {
-        ev.dataTransfer.setData("text/plain", ev.target.closest('.kanban-card').getAttribute('data-id'));
+        let id = ev.target.closest('.kanban-card').getAttribute("data-id");
+        ev.dataTransfer.setData("id", id);
     }
 
     function drop(ev) {
         ev.preventDefault();
         ev.currentTarget.classList.remove('dragover');
 
-        const id = ev.dataTransfer.getData("text/plain");
-        const card = document.querySelector('.kanban-card[data-id="' + id + '"]');
-        if (!card) return;
+        let id = ev.dataTransfer.getData("id");
+        let card = document.querySelector('[data-id="' + id + '"]');
 
-        // Move card visually
         ev.currentTarget.appendChild(card);
 
-        // Decide new status based on column id
         let newStatus = "Open";
         if (ev.currentTarget.id === "inprogress") newStatus = "In Progress";
         if (ev.currentTarget.id === "done") newStatus = "Resolved";
 
-        // optimistic UI update; send PATCH/PUT to API to update issue status
         fetch(`/api/issues/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 id: parseInt(id),
-                title: card.querySelector('strong').innerText,
-                description: card.querySelector('.mt-1').innerText,
+                title: card.querySelector("strong").innerText,
+                description: card.querySelector(".mt-1").innerText,
                 status: newStatus,
-                projectId: parseInt(card.querySelector('.small').innerText.replace('#', '')) // fallback
+                projectId: 1
             })
-        }).then(resp => {
-            if (!resp.ok) {
-                alert('Failed to update issue status on server.');
-                location.reload();
-            }
-        }).catch(() => {
-            alert('Failed to update issue status on server.');
-            location.reload();
         });
     }
-
-    document.addEventListener('dragend', function(e) {
-        document.querySelectorAll('.kanban-column').forEach(c => c.classList.remove('dragover'));
-    });
 </script>

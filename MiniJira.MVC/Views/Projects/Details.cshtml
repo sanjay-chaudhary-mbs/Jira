@@ -31,7 +31,9 @@
                     <td>@issue.Id</td>
                     <td>@issue.Title</td>
                     <td>@issue.Description</td>
-                    <td>@issue.Status</td>
+                    <td>
+                        @await Html.PartialAsync("_StatusTag", issue.Status)
+                    </td>
                 </tr>
             }
         </tbody>
