@@ -7,8 +7,31 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MiniJira.MVC.styles.css" asp-append-version="true" />
+    <style>
+        .nav-link.active {
+            color: #007bff !important;
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+
+        .nav-link.clicked {
+            color: #007bff !important; 
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+        // Helper function to check if a link is the active one
+        Func<string, string, string> isActive = (controller, action) =>
+        {
+            return (currentController == controller && currentAction == action) ? "active" : "";
+        };
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -20,16 +43,31 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark @isActive("Home", "Index")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark @isActive("Home", "Privacy")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Projects" asp-action="Index">Projects</a>
+                            <a class="nav-link text-dark @isActive("Projects", "Index" )" asp-controller="Projects" asp-action="Index">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark @isActive("Dashboard", "Index")" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                         </li>
 
+
                     </ul>
+                    <script>
+                        var navLinks = document.querySelectorAll('.nav-link');
+                        navLinks.forEach(function(link) {
+                            link.addEventListener('click', function() {
+                                navLinks.forEach(function(l) {
+                                    l.classList.remove('active');
+                                });
+                                this.classList.add('active');
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </nav>
