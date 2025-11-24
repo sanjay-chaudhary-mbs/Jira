@@ -1,40 +1,163 @@
 ﻿@model List<MiniJira.MVC.Models.ProjectViewModel>
 
-<h2 class="mb-3">Projects</h2>
+<h2 class="mb-4">Projects</h2>
 
-@if (ViewBag.Error != null)
+<!-- SEARCH + FILTERS -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <input id="searchBox" type="text" class="form-control" placeholder="🔍 Search projects..." />
+    </div>
+
+    <div class="col-md-3">
+        <select id="filterDropdown" class="form-select">
+            <option value="">Filter by status</option>
+            <option value="active">Active Projects</option>
+            <option value="empty">No Issues</option>
+            <option value="completed">100% Completed</option>
+        </select>
+    </div>
+
+    <div class="col-md-5 text-end">
+        <a class="btn btn-success" asp-controller="Projects" asp-action="Create">
+            + Create New Project
+        </a>
+    </div>
+</div>
+
+@if (Model.Count == 0)
 {
-    <div class="alert alert-danger">@ViewBag.Error</div>
+    <p class="text-muted">No projects found.</p>
 }
-else
-{
-    <a class="btn btn-success mb-3" asp-controller="Projects" asp-action="Create">
-        + Create New Project
-    </a>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Project Name</th>
-                <th>Description</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in Model)
-            {
-                <tr>
-                    <td>@p.Id</td>
-                    <td>@p.Name</td>
-                    <td>@p.Description</td>
-                    <td>
-                        <a href="@Url.Action("Details", "Projects", new { id = p.Id })" class="btn btn-primary btn-sm">
-                            View Issues
-                        </a>
-                    </td>
-                </tr>
+<!-- PROJECT CARDS -->
+<div class="row" id="projectContainer">
+
+    @foreach (var p in Model)
+    {
+        var totalIssues = p.Issues?.Count ?? 0;
+        var resolvedIssues = p.Issues?.Count(i => i.Status == "Resolved" || i.Status == "Closed") ?? 0;
+        var openIssues = p.Issues?.Count(i => i.Status == "Open") ?? 0;
+
+        int progressPercent = totalIssues == 0 ? 0 : (resolvedIssues * 100 / totalIssues);
+
+        string status = "empty";
+        if (totalIssues == 0)
+        {
+            status = "empty";               // Grey border
+        }
+        else if (progressPercent == 100)
+        {
+            status = "completed";           // Green border
+        }
+        else
+        {
+            status = "active";              // Blue border
+        }
+
+        <div class="col-md-4 mb-4 project-card"
+             data-name="@p.Name.ToLower()"
+             data-status="@status">
+
+            <div class="card projectShadow h-100 border-custom @status">
+                <div class="card-body">
+
+                    <h5 class="fw-bold">@p.Name</h5>
+
+                    <p class="text-muted">
+                        @p.Description
+                    </p>
+
+                    <!-- Issue Counters -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="badge bg-primary">Total: @totalIssues</span>
+                        <span class="badge bg-warning text-dark">Open: @openIssues</span>
+                    </div>
+
+                    <!-- PROGRESS BAR -->
+                    <label class="small text-muted">Progress</label>
+                    <div class="progress mb-3">
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width:@progressPercent%">
+                            @progressPercent%
+                        </div>
+                    </div>
+
+                    <a class="btn btn-primary w-100"
+                       href="@Url.Action("Details", "Projects", new { id = p.Id })">
+                        View Issues
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- CSS -->
+<style>
+
+    /* CARD SHADOW */
+    .projectShadow {
+        border-radius: 14px;
+        transition: 0.25s ease;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+
+        .projectShadow:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+        }
+
+    /* BORDER COLORS */
+    .border-custom.active {
+        border-left: 6px solid #0d6efd; /* Blue */
+    }
+
+    .border-custom.empty {
+        border-left: 6px solid #6c757d; /* Grey */
+    }
+
+    .border-custom.completed {
+        border-left: 6px solid #2ecc71; /* Green */
+    }
+
+    /* PROGRESS BAR COLORS */
+    .progress-bar {
+        background: linear-gradient(90deg, #4facfe, #00f2fe);
+        font-weight: bold;
+    }
+
+    .completed .progress-bar {
+        background: linear-gradient(90deg, #66ff99, #2ecc71);
+    }
+</style>
+
+<!-- JS: Search + Filter -->
+<script>
+    document.getElementById("searchBox").addEventListener("keyup", function () {
+        let search = this.value.toLowerCase();
+        document.querySelectorAll(".project-card").forEach(card => {
+            let name = card.getAttribute("data-name");
+            card.style.display = name.includes(search) ? "" : "none";
+        });
+    });
+
+    document.getElementById("filterDropdown").addEventListener("change", function () {
+        let filter = this.value;
+        document.querySelectorAll(".project-card").forEach(card => {
+
+            let status = card.getAttribute("data-status");
+
+            if (filter === "") {
+                card.style.display = "";
             }
-        </tbody>
-    </table>
-}
+            else if (filter === status) {
+                card.style.display = "";
+            }
+            else {
+                card.style.display = "none";
+            }
+        });
+    });
+</script>

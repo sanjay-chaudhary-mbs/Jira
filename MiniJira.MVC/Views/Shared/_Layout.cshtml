@@ -31,6 +31,38 @@
             transform: translateY(-3px);
         }
 
+        .status-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            color: white;
+            text-transform: capitalize;
+        }
+
+        .status-open {
+            background-color: #0d6efd; /* Blue */
+        }
+
+        .status-inprogress {
+            background-color: #f1c40f; /* Yellow */
+            color: #000;
+        }
+
+        .status-resolved {
+            background-color: #2ecc71; /* Green */
+        }
+
+        .status-closed {
+            background-color: #6c757d; /* Gray */
+        }
+
+        .status-default {
+            background-color: #999;
+        }
+
+
     </style>
 
 </head>
@@ -98,5 +130,27 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        // Slide-in animation on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.status-tag').forEach((tag, i) => {
+                setTimeout(() => tag.classList.add('appear'), i * 30);
+            });
+        });
+
+        // Call this after updating issue status on Kanban drop
+        function animateStatusTag(issueId) {
+            const card = document.querySelector(`.kanban-card[data-id="${issueId}"]`);
+            if (!card) return;
+
+            const tag = card.querySelector('.status-tag');
+            if (!tag) return;
+
+            tag.classList.remove('pop');
+            void tag.offsetWidth; // restart animation
+            tag.classList.add('pop');
+        }
+    </script>
+
 </body>
 </html>
