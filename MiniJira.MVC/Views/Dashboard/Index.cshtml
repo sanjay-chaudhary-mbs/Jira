@@ -64,12 +64,24 @@
                     <div id="todo" class="kanban-column" ondrop="drop(event)" ondragover="allowDrop(event)">
                         @foreach (var issue in Model.ToDo)
                         {
-                            <div class="kanban-card" draggable="true" ondragstart="drag(event)" data-id="@issue.Id" data-status="@issue.Status">
+                            <div class="kanban-card"
+                                 draggable="true"
+                                 ondragstart="drag(event)"
+                                 data-id="@issue.Id"
+                                 data-title="@issue.Title"
+                                 data-description="@issue.Description"
+                                 data-project="@issue.ProjectId"
+                                 data-status="@issue.Status">
+
+
+
                                 <div class="d-flex justify-content-between align-items-start">
                                     <strong class="card-title mb-1">@issue.Title</strong>
                                     @await Html.PartialAsync("_StatusTag", issue.Status)
                                 </div>
+
                                 <div class="small text-muted mb-2">#@issue.Id</div>
+
                                 <div class="text-muted small">@issue.Description</div>
                             </div>
                         }
@@ -81,14 +93,27 @@
                     <div id="inprogress" class="kanban-column" ondrop="drop(event)" ondragover="allowDrop(event)">
                         @foreach (var issue in Model.InProgress)
                         {
-                            <div class="kanban-card" draggable="true" ondragstart="drag(event)" data-id="@issue.Id" data-status="@issue.Status">
+                            <div class="kanban-card"
+                                 draggable="true"
+                                 ondragstart="drag(event)"
+                                 data-id="@issue.Id"
+                                 data-title="@issue.Title"
+                                 data-description="@issue.Description"
+                                 data-project="@issue.ProjectId"
+                                 data-status="@issue.Status">
+
+
+
                                 <div class="d-flex justify-content-between align-items-start">
                                     <strong class="card-title mb-1">@issue.Title</strong>
                                     @await Html.PartialAsync("_StatusTag", issue.Status)
                                 </div>
+
                                 <div class="small text-muted mb-2">#@issue.Id</div>
+
                                 <div class="text-muted small">@issue.Description</div>
                             </div>
+
                         }
                     </div>
                 </div>
@@ -98,14 +123,27 @@
                     <div id="done" class="kanban-column" ondrop="drop(event)" ondragover="allowDrop(event)">
                         @foreach (var issue in Model.Done)
                         {
-                            <div class="kanban-card" draggable="true" ondragstart="drag(event)" data-id="@issue.Id" data-status="@issue.Status">
+                            <div class="kanban-card"
+                                 draggable="true"
+                                 ondragstart="drag(event)"
+                                 data-id="@issue.Id"
+                                 data-title="@issue.Title"
+                                 data-description="@issue.Description"
+                                 data-project="@issue.ProjectId"
+                                 data-status="@issue.Status">
+
+
+
                                 <div class="d-flex justify-content-between align-items-start">
                                     <strong class="card-title mb-1">@issue.Title</strong>
                                     @await Html.PartialAsync("_StatusTag", issue.Status)
                                 </div>
+
                                 <div class="small text-muted mb-2">#@issue.Id</div>
+
                                 <div class="text-muted small">@issue.Description</div>
                             </div>
+
                         }
                     </div>
                 </div>
@@ -136,9 +174,7 @@
     </div>
 </div>
 
-<!-- Styles (kept compact and aligned with original look) -->
 <style>
-    /* Stat cards */
     .stat-card {
         background: #fff;
         border-radius: 10px;
@@ -146,7 +182,6 @@
         box-shadow: 0 6px 18px rgba(17,24,39,0.04);
     }
 
-    /* Kanban column */
     .kanban-column {
         min-height: 320px;
         padding: 12px;
@@ -158,8 +193,6 @@
             outline: 2px dashed rgba(13,110,253,0.25);
             background: rgba(13,110,253,0.02);
         }
-
-    /* Card style (keeps your earlier simple look) */
     .kanban-card {
         background: #ffffff;
         border-radius: 8px;
@@ -174,19 +207,15 @@
             box-shadow: 0 12px 30px rgba(17,24,39,0.06);
         }
 
-    /* Status tag basic (partial handles colors) */
     .status-tag {
         margin-left: 8px;
     }
-
-    /* Recent activity */
     .list-group-item {
         border-radius: 8px;
         border: 1px solid rgba(0,0,0,0.04);
         background: #fff;
     }
 
-    /* small responsive tweaks */
     @@media (max-width: 991px) {
         .kanban-column {
             min-height: 220px;
@@ -195,74 +224,59 @@
 
 </style>
 
-<!-- Drag/Drop + animate pop for tag -->
 <script>
+    const API_BASE = "https://localhost:44311"; // <-- API PORT HERE
+
     function allowDrop(ev) {
         ev.preventDefault();
-        ev.currentTarget.classList.add('dragover');
+        ev.currentTarget.classList.add("dragover");
     }
 
     function drag(ev) {
-        const card = ev.target.closest('.kanban-card');
-        if (!card) return;
-        ev.dataTransfer.setData('text/plain', card.getAttribute('data-id'));
+        const card = ev.target.closest(".kanban-card");
+        ev.dataTransfer.setData("issueId", card.dataset.id);
     }
 
     function drop(ev) {
         ev.preventDefault();
-        ev.currentTarget.classList.remove('dragover');
+        ev.currentTarget.classList.remove("dragover");
 
-        const id = ev.dataTransfer.getData('text/plain');
-        const card = document.querySelector('.kanban-card[data-id="' + id + '"]');
-        if (!card) return;
+        let id = ev.dataTransfer.getData("issueId");
+        let card = document.querySelector(`[data-id="${id}"]`);
 
-        // move visually
         ev.currentTarget.appendChild(card);
 
-        // compute new status by column id
-        let newStatus = 'Open';
-        if (ev.currentTarget.id === 'inprogress') newStatus = 'In Progress';
-        if (ev.currentTarget.id === 'done') newStatus = 'Resolved';
+        let newStatus = "Open";
+        if (ev.currentTarget.id === "inprogress") newStatus = "In Progress";
+        if (ev.currentTarget.id === "done") newStatus = "Done";
 
-        // prepare payload (try to read projectId from data attr if you set it, else fallback 1)
-        let projectId = card.getAttribute('data-projectid') || 1;
+        let body = {
+            id: parseInt(id),
+            title: card.dataset.title,
+            description: card.dataset.description,
+            status: newStatus,
+            projectId: parseInt(card.dataset.project)
+        };
 
-        // send update to API (assumes PUT /api/issues/{id} accepts full issue)
-        fetch(`/api/issues/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id: parseInt(id, 10),
-                title: card.querySelector('.card-title')?.innerText || card.querySelector('strong').innerText,
-                description: card.querySelector('.mt-2')?.innerText || card.querySelector('.text-muted.small')?.innerText || '',
-                status: newStatus,
-                projectId: parseInt(projectId, 10)
-            })
-        }).then(resp => {
-            if (resp.ok) {
-                // animate status tag inside card for feedback
-                const tag = card.querySelector('.status-tag');
-                if (tag) {
-                    tag.classList.remove('pop');
-                    void tag.offsetWidth;
-                    tag.classList.add('pop');
-                    setTimeout(() => tag.classList.remove('pop'), 900);
-                }
-            } else {
-                // revert visual move on failure (simple fallback: reload)
+        fetch(`${API_BASE}/api/issues/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        })
+        .then(res => {
+            if (!res.ok) {
+                alert("Failed to update. Reloading...");
                 location.reload();
             }
-        }).catch(() => location.reload());
+        })
+        .catch(() => location.reload());
     }
 
-    // remove dragover visual state at dragend
-    document.addEventListener('dragend', () => {
-        document.querySelectorAll('.kanban-column').forEach(c => c.classList.remove('dragover'));
+    document.addEventListener("dragend", () => {
+        document.querySelectorAll(".kanban-column")
+            .forEach(col => col.classList.remove("dragover"));
     });
-        /* Prevent overlapping footer */
-    .recent-activity-container {
-        max-height: 75vh;
-        overflow-y: auto;
-        padding-bottom: 20px;
-    }
 </script>
+
+
+
