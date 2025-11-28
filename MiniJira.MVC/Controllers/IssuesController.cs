@@ -42,5 +42,48 @@ namespace MiniJira.MVC.Controllers
             ViewBag.Error = "Failed to create issue.";
             return View(model);
         }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var resp = await _client.GetAsync($"api/issues/{id}");
+            if (!resp.IsSuccessStatusCode) return NotFound();
+
+            var json = await resp.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<IssueViewModel>(json);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, IssueViewModel model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var resp = await _client.PutAsync($"api/issues/{id}", content);
+
+            if (resp.IsSuccessStatusCode)
+                return RedirectToAction("Details", "Projects", new { id = model.ProjectId });
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var resp = await _client.GetAsync($"api/issues/{id}");
+            if (!resp.IsSuccessStatusCode) return NotFound();
+
+            var json = await resp.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<IssueViewModel>(json);
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _client.DeleteAsync($"api/issues/{id}");
+            return RedirectToAction("Index", "Projects");
+        }
+
     }
 }

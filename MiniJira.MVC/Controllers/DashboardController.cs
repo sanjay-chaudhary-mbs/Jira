@@ -33,7 +33,6 @@ namespace MiniJira.MVC.Controllers
                 issues = JsonConvert.DeserializeObject<List<IssueViewModel>>(isJson) ?? new List<IssueViewModel>();
             }
 
-            // Group issues into columns
             var todo = issues.Where(i => string.Equals(i.Status, "Open", StringComparison.OrdinalIgnoreCase)).ToList();
             var inProgress = issues.Where(i => string.Equals(i.Status, "In Progress", StringComparison.OrdinalIgnoreCase) ||
                                                string.Equals(i.Status, "InProgress", StringComparison.OrdinalIgnoreCase)).ToList();

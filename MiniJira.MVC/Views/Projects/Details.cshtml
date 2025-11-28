@@ -1,45 +1,175 @@
 ﻿@model MiniJira.MVC.Models.ProjectViewModel
 
-<h2>Project: @Model.Name</h2>
-<p><strong>Description:</strong> @Model.Description</p>
+<div class="container">
 
+    <!-- PROJECT HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">@Model.Name</h2>
+            <p class="text-muted">@Model.Description</p>
+        </div>
 
-<a class="btn btn-success mb-3"
-   asp-controller="Issues"
-   asp-action="Create"
-   asp-route-projectId="@Model.Id">
-    + Create Issue
-</a>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id"
+               class="btn btn-warning me-2">Edit Project</a>
 
-<h4>Issues</h4>
+            <a asp-action="Delete" asp-route-id="@Model.Id"
+               class="btn btn-danger me-2">Delete Project</a>
 
-@if (Model.Issues != null && Model.Issues.Any())
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Issue ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var issue in Model.Issues)
-            {
-                <tr>
-                    <td>@issue.Id</td>
-                    <td>@issue.Title</td>
-                    <td>@issue.Description</td>
-                    <td>
-                        @await Html.PartialAsync("_StatusTag", issue.Status)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No issues found for this project.</p>
-}
+            <a asp-controller="Issues" asp-action="Create"
+               asp-route-projectId="@Model.Id"
+               class="btn btn-success">+ Create Issue</a>
+        </div>
+    </div>
+
+    <!-- PROGRESS CARD -->
+    @{
+        var total = Model.Issues?.Count ?? 0;
+        var solved = Model.Issues?.Count(i => i.Status == "Resolved" || i.Status == "Closed") ?? 0;
+        int percent = total == 0 ? 0 : (solved * 100 / total);
+    }
+
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body">
+
+            <h5 class="fw-semibold">Project Progress</h5>
+
+            <div class="progress mt-2">
+                <div class="progress-bar" role="progressbar"
+                     style="width:@percent%; background: linear-gradient(90deg,#4facfe,#00f2fe);">
+                    @percent%
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SEARCH + SORT -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input id="searchIssue" type="text" class="form-control"
+                   placeholder="🔍 Search issues..." />
+        </div>
+
+        <div class="col-md-3">
+            <select id="sortIssue" class="form-select">
+                <option value="">Sort by</option>
+                <option value="title">Title (A-Z)</option>
+                <option value="status">Status</option>
+                <option value="id">ID</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ISSUE CARDS -->
+    <div class="row" id="issueContainer">
+        @foreach (var issue in Model.Issues)
+        {
+            <div class="col-md-4 mb-3 issue-card"
+                 data-title="@issue.Title.ToLower()"
+                 data-status="@issue.Status"
+                 data-id="@issue.Id">
+
+                <div class="card shadow-sm issueBox h-100">
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">@issue.Title</h5>
+                        <div class="text-muted small mb-2">Issue #@issue.Id</div>
+
+                        <span class="status-tag @issue.Status.Replace(" ", "").ToLower()">
+                            @issue.Status
+                        </span>
+
+                        <p class="mt-2">@issue.Description</p>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <a asp-controller="Issues" asp-action="Edit"
+                               asp-route-id="@issue.Id"
+                               class="btn btn-sm btn-warning">Edit</a>
+
+                            <a asp-controller="Issues" asp-action="Delete"
+                               asp-route-id="@issue.Id"
+                               class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+
+</div>
+
+<!-- CSS -->
+<style>
+    .issueBox {
+        border-radius: 14px;
+        transition: 0.25s ease;
+    }
+
+        .issueBox:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+        }
+
+    .status-tag {
+        padding: 4px 12px;
+        font-size: 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        color: white;
+    }
+
+    .open {
+        background-color: #0d6efd;
+    }
+
+    .inprogress {
+        background-color: #f1c40f;
+        color: black;
+    }
+
+    .resolved {
+        background-color: #2ecc71;
+    }
+
+    .closed {
+        background-color: #6c757d;
+    }
+</style>
+
+<!-- JS: Search + Sorting -->
+<script>
+    const searchBox = document.getElementById("searchIssue");
+    const sortDropdown = document.getElementById("sortIssue");
+    const cards = document.querySelectorAll(".issue-card");
+
+    searchBox.addEventListener("keyup", () => {
+        let search = searchBox.value.toLowerCase();
+
+        cards.forEach(c => {
+            let title = c.getAttribute("data-title");
+            c.style.display = title.includes(search) ? "" : "none";
+        });
+    });
+
+    sortDropdown.addEventListener("change", () => {
+        let option = sortDropdown.value;
+        let container = document.getElementById("issueContainer");
+        let items = [...container.children];
+
+        items.sort((a, b) => {
+            if (option === "title")
+                return a.dataset.title.localeCompare(b.dataset.title);
+            if (option === "status")
+                return a.dataset.status.localeCompare(b.dataset.status);
+            if (option === "id")
+                return a.dataset.id - b.dataset.id;
+
+            return 0;
+        });
+
+        items.forEach(i => container.appendChild(i));
+    });
+</script>

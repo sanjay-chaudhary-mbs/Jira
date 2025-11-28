@@ -70,8 +70,6 @@
     @{
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-
-        // Helper function to check if a link is the active one
         Func<string, string, string> isActive = (controller, action) =>
         {
             return (currentController == controller && currentAction == action) ? "active" : "";
@@ -113,7 +111,6 @@
                 </div>
             </div>
         </nav>
-
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -150,6 +147,7 @@
             void tag.offsetWidth; // restart animation
             tag.classList.add('pop');
         }
+
     </script>
 
 </body>

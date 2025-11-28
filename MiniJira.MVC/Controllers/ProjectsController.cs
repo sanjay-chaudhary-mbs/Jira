@@ -66,5 +66,47 @@ namespace MiniJira.MVC.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var resp = await _client.GetAsync($"api/projects/{id}");
+            if (!resp.IsSuccessStatusCode) return NotFound();
+
+            var json = await resp.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<ProjectViewModel>(json);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, ProjectViewModel model)
+        {
+            var json = JsonConvert.SerializeObject(model);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var resp = await _client.PutAsync($"api/projects/{id}", content);
+
+            if (resp.IsSuccessStatusCode)
+                return RedirectToAction("Index");
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var resp = await _client.GetAsync($"api/projects/{id}");
+            if (!resp.IsSuccessStatusCode) return NotFound();
+
+            var json = await resp.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<ProjectViewModel>(json);
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _client.DeleteAsync($"api/projects/{id}");
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -1,0 +1,17 @@
+﻿@model MiniJira.MVC.Models.IssueViewModel
+@{
+    ViewData["Title"] = "Delete Issue";
+}
+
+<h2>Delete Issue</h2>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete "<strong>@Model.Title</strong>"?
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Delete</button>
+    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Model.ProjectId"
+       class="btn btn-secondary ms-2">Cancel</a>
+</form>
